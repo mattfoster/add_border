@@ -17,7 +17,7 @@ The script will output files whose names are the same, but with `_border` added 
 You can get it from:
   
   * [svn](http://svn.my-mili.eu/svn/border/ "border - Revision 1: /")
-	* Github (preferred) as I probably won't update SVN anymore.
+  * Github (preferred) as I probably won't update SVN anymore.
 	
 `add_border.rb` requires [RMagick](http://rmagick.rubyforge.org/ "RMagick Download Page").
 
