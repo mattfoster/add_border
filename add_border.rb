@@ -60,10 +60,11 @@ filenames.each do |filename|
   
   # Create a border out of average colour of the image
   samp = image.sample(0.2)
-  
-  red = 0
-  green = 0
-  blue= 0
+
+  # Calculate mean colour values.
+  red = 0.0
+  green = 0.0
+  blue= 0.0
   
   samp.each_pixel do |pixel, c, r|
     red += pixel.red
@@ -74,12 +75,10 @@ filenames.each do |filename|
   red /= (samp.rows * samp.columns)
   green /= (samp.rows * samp.columns)
   blue /= (samp.rows * samp.columns)
+  
+  col = Magick::Pixel.new(red,green, blue, 0)
 
-  col = Magick::Pixel.new(red*Magick::MaxRGB,
-                          green*Magick::MaxRGB, 
-                          blue*Magick::MaxRGB, 
-                          0)
-
+  # Now add the borders
   image.border!(inner_size, inner_size, col)
   image.border!(outer_size, outer_size, outer_colour)
 
