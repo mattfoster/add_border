@@ -1,4 +1,4 @@
-#! /usr/local/bin/ruby
+#! /usr/bin/env ruby -w
 # == Synopsis
 # Add a double-border to an image, or several images. 
 # Requires RMagick
@@ -12,6 +12,7 @@
 # == Copyright
 # This file is distributed under the same terms as ruby.
 
+require 'rubygems'
 require 'rmagick'
 require 'optparse'
 require 'rdoc/usage'
@@ -58,10 +59,25 @@ filenames.each do |filename|
   image = Magick::Image.read(filename).first
   
   # Create a border out of average colour of the image
-  samp = image.sample(0.2).statistics
-  col = Magick::Pixel.new(samp.red.mean*Magick::MaxRGB,
-                          samp.blue.mean*Magick::MaxRGB, 
-                          samp.blue.mean*Magick::MaxRGB, 
+  samp = image.sample(0.2)
+  
+  red = 0
+  green = 0
+  blue= 0
+  
+  samp.each_pixel do |pixel, c, r|
+    red += pixel.red
+    green += pixel.green
+    blue += pixel.blue
+  end
+  
+  red /= (samp.rows * samp.columns)
+  green /= (samp.rows * samp.columns)
+  blue /= (samp.rows * samp.columns)
+
+  col = Magick::Pixel.new(red*Magick::MaxRGB,
+                          green*Magick::MaxRGB, 
+                          blue*Magick::MaxRGB, 
                           0)
 
   image.border!(inner_size, inner_size, col)
